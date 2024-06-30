@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Hire Requisition Form</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .container { width: 210mm; max-width: 100%; margin: 0 auto; padding: 20px; }
+        .form-section { margin-bottom: 20px; }
+        .form-section h2 { background-color: #f2f2f2; padding: 10px; border: 1px solid #ddd; }
+        .form-group { margin-bottom: 10px; }
+        .form-group label { display: block; margin-bottom: 5px; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 8px; box-sizing: border-box; }
+        .form-group-checkbox { display: flex; align-items: center; }
+        .form-group-checkbox label { margin-left: 5px; }
+        .approval-section { display: flex; flex-wrap: wrap; justify-content: space-between; }
+        .approval-section div { width: 100%; max-width: 30%; margin-bottom: 20px; }
+        canvas { border: 1px solid #000; width: 100%; height: 150px; }
+        .clear-button { margin-top: 5px; }
+        .background-image { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: url('utp pic.jpeg') no-repeat center center; background-size: cover; opacity: 0.2; z-index: -1; }
+        @media print {
+            body { margin: 0; }
+            .container { width: 210mm; height: 297mm; margin: 0; padding: 20px; page-break-after: always; }
+            .logo { display: block; margin: 20px auto; max-width: 200px; }
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+</head>
+<body>
+<div class="background-image"></div>
+<div class="container">
+    <img src="utp logo.png" alt="UTP Logo" class="logo">
+    <h1>New Hire Requisition Form for Contract Staff under Research Grant</h1>
+
+    <p>This form is only applicable for contract staff hired under grant – Research Officer & Research Assistant. This form is to be filled and submitted by Project Leader at least ONE (1) MONTH before proposed report duty date.</p>
+    <p>For Local Candidate our report duty date is only on either 1st or 16th of the month. If any of the date falls on public holiday the candidate shall report duty on the following working date.</p>
+    <p>Assessment must be arranged by PI & respective Research Institute. This form must be submitted with the following documents: (please tick)</p>
+    
+    <div class="form-group">
+        <label for="attachments">Upload Attachment(s):</label>
+        <input type="file" id="attachments" multiple onchange="saveAttachmentsToLocalStorage()">
+    </div>
+    
+    <div class="form-group-checkbox">
+        <input type="checkbox" id="manpower-calculator">
+        <label for="manpower-calculator">Manpower Calculator on Salary Recommendation</label>
+    </div>
+    <div class="form-group-checkbox">
+        <input type="checkbox" id="job-application-form">
+        <label for="job-application-form">Candidate’s Job Application Form</label>
+    </div>
+    <div class="form-group-checkbox">
+        <input type="checkbox" id="cv">
+        <label for="cv">Candidate’s CV</label>
+    </div>
+    <div class="form-group-checkbox">
+        <input type="checkbox" id="ic-copy">
+        <label for="ic-copy">Candidate’s Copy of IC</label>
+    </div>
+    <div class="form-group-checkbox">
+        <input type="checkbox" id="interview-assessment">
+        <label for="interview-assessment">Interview Assessment Form (by Project Leader Research Institute RMC / TTO)</label>
+    </div>
+
+    <div class="form-section">
+        <h2>A. Project Details</h2>
+        <div class="form-group">
+            <label for="project-leader-name">Project Leader Name:</label>
+            <input type="text" id="project-leader-name">
+        </div>
+        <div class="form-group">
+            <label for="project-title">Project Title:</label>
+            <input type="text" id="project-title">
+        </div>
+        <div class="form-group">
+            <label for="cost-center-no">Cost Center No.:</label>
+            <input type="text" id="cost-center-no">
+        </div>
+        <div class="form-group">
+            <label for="current-balance">Current Balance (RM):</label>
+            <input type="text" id="current-balance">
+        </div>
+        <div class="form-group">
+            <label for="project-end-date">Project’s End Date:</label>
+            <input type="date" id="project-end-date">
+        </div>
+    </div>
+
+    <div class="form-section">
+        <h2>B. Contract Personnel Details</h2>
+        <div class="form-group">
+            <label>Position Title: (Please tick)</label>
+            <div class="form-group-checkbox">
+                <input type="radio" id="ra" name="position-title">
+                <label for="ra">Research Assistant (RA)</label>
+            </div>
+            <div class="form-group-checkbox">
+                <input type="radio" id="ro" name="position-title">
+                <label for="ro">Research Officer (RO)</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name">
+        </div>
+        <div class="form-group">
+            <label for="ic-no">IC No.:</label>
+            <input type="text" id="ic-no">
+        </div>
+        <div class="form-group">
+            <label for="age">Age:</label>
+            <input type="number" id="age" value="29">
+        </div>
+        <div class="form-group">
+            <label for="contact-no">Contact No.:</label>
+            <input type="text" id="contact-no">
+        </div>
+        <div class="form-group">
+            <label for="email">Email Address:</label>
+            <input type="email" id="email">
+        </div>
+        <div class="form-group">
+            <label>Duration of contract:</label>
+            <input type="date" id="contract-from">
+            <span>to</span>
+            <input type="date" id="contract-to">
+        </div>
+        <div class="form-group">
+            <label for="proposed-salary">Proposed Salary:</label>
+            <input type="text" id="proposed-salary">
+        </div>
+        <div class="form-group">
+            <label for="recommendation">Recommendation:</label>
+            <textarea id="recommendation" rows="4"></textarea>
+        </div>
+    </div>
+
+    <div class="form-section">
+        <h2>C. Insurance Policy</h2>
+        <p>Purchasing of Insurance Policy is not compulsory. Project Leader has the option to purchase the Insurance Policy subject to the project’s budget as well as its funder’s terms & conditions.</p>
+        <div class="form-group-checkbox">
+            <input type="radio" id="insurance-yes" name="insurance-policy">
+            <label for="insurance-yes">Yes</label>
+        </div>
+        <div class="form-group-checkbox">
+            <input type="radio" id="insurance-no" name="insurance-policy">
+            <label for="insurance-no">No</label>
+        </div>
+        <p>If yes, you may choose any of the options below:</p>
+        <div class="form-group-checkbox">
+            <input type="radio" id="offshore" name="insurance-option">
+            <label for="offshore">Offshore: RM1849.00 x 6% SST = RM1959.94 (For staff working on offshore platforms)</label>
+        </div>
+        <div class="form-group-checkbox">
+            <input type="radio" id="onshore" name="insurance-option">
+            <label for="onshore">Office: RM1517.00 x 6% SST = RM1608.02 (For staff working onshore)</label>
+        </div>
+        <p>For reference, the summary of the package is available in the attachment: Insurance Benefit Package_Allianz. For enquiries and registration of the Insurance policy, you may communicate with TTO/RMC personnel.</p>
+    </div>
+
+    <button onclick="submitForm()">Submit</button>
+</div>
+
+<script>
+    // Function to convert a file to a Base64 string
+    function convertFileToBase64(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => {
+                const base64String = reader.result.replace(/^data:.*;base64,/, '');
+                resolve({ name: file.name, content: base64String });
+            };
+            reader.onerror = error => reject(error);
+            reader.readAsDataURL(file);
+        });
+    }
+
+    // Function to save attachments to local storage
+    async function saveAttachmentsToLocalStorage() {
+        const attachments = document.getElementById('attachments').files;
+        const attachmentPromises = Array.from(attachments).map(file => convertFileToBase64(file));
+
+        try {
+            const attachmentsData = await Promise.all(attachmentPromises);
+            localStorage.setItem('attachmentsData', JSON.stringify(attachmentsData));
+        } catch (error) {
+            console.error('Error saving attachments:', error);
+            alert('Failed to save attachments.');
+        }
+    }
+
+    // Function to submit the form data
+    async function submitForm() {
+        // Get form values
+        const positionTitle = document.querySelector('input[name="position-title"]:checked');
+        const insurancePolicy = document.querySelector('input[name="insurance-policy"]:checked');
+        const selectedInsuranceOption = document.querySelector('input[name="insurance-option"]:checked');
+
+        const positionTitleLabel = positionTitle ? document.querySelector(`label[for="${positionTitle.id}"]`).innerText : null;
+        const insurancePolicyLabel = insurancePolicy ? document.querySelector(`label[for="${insurancePolicy.id}"]`).innerText : null;
+        const insuranceOptionLabel = selectedInsuranceOption ? document.querySelector(`label[for="${selectedInsuranceOption.id}"]`).innerText : null;
+
+        const attachments = JSON.parse(localStorage.getItem('attachmentsData')) || [];
+
+        const formData = {
+            attachments: attachments,
+            projectLeaderName: document.getElementById('project-leader-name').value,
+            projectTitle: document.getElementById('project-title').value,
+            costCenterNo: document.getElementById('cost-center-no').value,
+            currentBalance: document.getElementById('current-balance').value,
+            projectEndDate: document.getElementById('project-end-date').value,
+            positionTitle: positionTitleLabel,
+            name: document.getElementById('name').value,
+            icNo: document.getElementById('ic-no').value,
+            age: document.getElementById('age').value,
+            contactNo: document.getElementById('contact-no').value,
+            email: document.getElementById('email').value,
+            contractFrom: document.getElementById('contract-from').value,
+            contractTo: document.getElementById('contract-to').value,
+            proposedSalary: document.getElementById('proposed-salary').value,
+            recommendation: document.getElementById('recommendation').value,
+            insurancePolicy: insurancePolicyLabel,
+            insuranceOption: insuranceOptionLabel,
+        };
+
+        // Save to local storage
+        localStorage.setItem('formData', JSON.stringify(formData));
+
+        // Clear form
+        document.querySelectorAll('input, textarea').forEach(input => {
+            if (input.type === 'radio' || input.type === 'checkbox') {
+                input.checked = false;
+            } else {
+                input.value = '';
+            }
+        });
+    }
+
+    // Handling the toggling of radio buttons for insurance option
+    let lastChecked = null;
+    document.querySelectorAll('input[name="insurance-option"]').forEach(radio => {
+        radio.addEventListener('click', (event) => {
+            if (lastChecked === event.target) {
+                event.target.checked = false;
+                lastChecked = null;
+            } else {
+                lastChecked = event.target;
+            }
+        });
+    });
+</script>
+</body>
+</html>
+

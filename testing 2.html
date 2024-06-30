@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Hire Requisition Form</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .container { width: 210mm; max-width: 100%; margin: 0 auto; padding: 20px; }
+        .form-section { margin-bottom: 20px; }
+        .form-section h2 { background-color: #f2f2f2; padding: 10px; border: 1px solid #ddd; }
+        .form-group { margin-bottom: 10px; }
+        .form-group label { display: block; margin-bottom: 5px; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 8px; box-sizing: border-box; }
+        .form-group-checkbox { display: flex; align-items: center; }
+        .form-group-checkbox label { margin-left: 5px; }
+        .approval-section { display: flex; flex-wrap: wrap; justify-content: space-between; }
+        .approval-section div { width: 100%; max-width: 30%; margin-bottom: 20px; }
+        canvas { border: 1px solid #000; width: 100%; height: 150px; }
+        .clear-button, .save-button { margin-top: 5px; }
+        .background-image { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: url('utp pic.jpeg') no-repeat center center; background-size: cover; opacity: 0.2; z-index: -1; }
+        @media print {
+            body { margin: 0; }
+            .container { width: 210mm; height: 297mm; margin: 0; padding: 20px; page-break-after: always; }
+            .logo { display: block; margin: 20px auto; max-width: 200px; }
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+</head>
+<body>
+<div class="background-image"></div>
+<div class="container">
+    <img src="utp logo.png" alt="UTP Logo" class="logo">
+    <h1>New Hire Requisition Form for Contract Staff under Research Grant</h1>
+
+    <p>This form is only applicable for contract staff hired under grant – Research Officer & Research Assistant. This form is to be filled and submitted by Project Leader at least ONE (1) MONTH before proposed report duty date.</p>
+    <p>For Local Candidate our report duty date is only on either 1st or 16th of the month. If any of the date falls on public holiday the candidate shall report duty on the following working date.</p>
+    <p>Assessment must be arranged by PI & respective Research Institute. This form must be submitted with the following documents: (please tick)</p>
+
+    <div class="form-section">
+        <h2>A. Project Details</h2>
+        <div class="form-group">
+            <label>Project Leader Name: <span id="project-leader-name-label"></span></label>
+        </div>
+        <div class="form-group">
+            <label>Project Title: <span id="project-title-label"></span></label>
+        </div>
+        <div class="form-group">
+            <label>Cost Center No.: <span id="cost-center-no-label"></span></label>
+        </div>
+        <div class="form-group">
+            <label>Current Balance (RM): <span id="current-balance-label"></span></label>
+        </div>
+        <div class="form-group">
+            <label>Project’s End Date: <span id="project-end-date-label"></span></label>
+        </div>
+    </div>
+
+    <div class="form-section">
+        <h2>B. Contract Personnel Details</h2>
+        <div class="form-group">
+            <label>Position Title: <span id="position-title-label"></span></label>
+        </div>
+        <div class="form-group">
+            <label>Name: <span id="name-label"></span></label>
+        </div>
+        <div class="form-group">
+            <label>IC No.: <span id="ic-no-label"></span></label>
+        </div>
+        <div class="form-group">
+            <label>Age: <span id="age-label"></span></label>
+        </div>
+        <div class="form-group">
+            <label>Contact No.: <span id="contact-no-label"></span></label>
+        </div>
+        <div class="form-group">
+            <label>Email Address: <span id="email-label"></span></label>
+        </div>
+        <div class="form-group">
+            <label>Duration of contract: <span id="contract-from-label"></span> to <span id="contract-to-label"></span></label>
+        </div>
+        <div class="form-group">
+            <label>Proposed Salary: <span id="proposed-salary-label"></span></label>
+        </div>
+        <div class="form-group">
+            <label>Recommendation: <span id="recommendation-label"></span></label>
+        </div>
+    </div>
+
+    <div class="form-section">
+        <h2>C. Insurance Policy</h2>
+        <p>Purchasing of Insurance Policy is not compulsory. Project Leader has the option to purchase the Insurance Policy subject to the project’s budget as well as its funder’s terms & conditions.</p>
+        <div class="form-group">
+            <label>Insurance Policy: <span id="insurance-policy-label"></span></label>
+        </div>
+        <div class="form-group">
+            <label>Insurance Option: <span id="insurance-option-label"></span></label>
+        </div>
+    </div>
+
+    <div class="form-section">
+        <h2>D. Approval</h2>
+        <div class="approval-section">
+            <div>
+                <p>PROJECT LEADER</p>
+                <label for="leader-signature">Signature:</label>
+                <canvas id="leader-signature" width="300" height="150"></canvas>
+                <button class="clear-button" onclick="clearCanvas('leader-signature')">Clear Signature</button>
+                <button class="save-button" onclick="saveSignature('leader-signature', 'leader-name', 'leader-date')">Save</button>
+                <label for="leader-name">Name:</label>
+                <input type="text" id="leader-name">
+                <label for="leader-date">Date:</label>
+                <input type="date" id="leader-date">
+            </div>
+            <div>
+                <p>CHECKED BY (INSTITUTE EXECUTIVE)</p>
+                <label for="executive-signature">Signature:</label>
+                <canvas id="executive-signature" width="300" height="150"></canvas>
+                <button class="clear-button" onclick="clearCanvas('executive-signature')">Clear Signature</button>
+                <button class="save-button" onclick="saveSignature('executive-signature', 'executive-name', 'executive-date')">Save</button>
+                <label for="executive-name">Name:</label>
+                <input type="text" id="executive-name">
+                <label for="executive-date">Date:</label>
+                <input type="date" id="executive-date">
+            </div>
+            <div>
+                <p>VERIFIED BY (INSTITUTE DIRECTOR)</p>
+                <label for="director-signature">Signature:</label>
+                <canvas id="director-signature" width="300" height="150"></canvas>
+                <button class="clear-button" onclick="clearCanvas('director-signature')">Clear Signature</button>
+                <button class="save-button" onclick="saveSignature('director-signature', 'director-name', 'director-date')">Save</button>
+                <label for="director-name">Name:</label>
+                <input type="text" id="director-name">
+                <label for="director-date">Date:</label>
+                <input type="date" id="director-date">
+            </div>
+        </div>
+    </div>
+
+    <div class="form-section">
+        <h2>E. For HRMA Department Processing</h2>
+        <div class="approval-section">
+            <div>
+                <p>REVIEWED BY (EXECUTIVE HRMA)</p>
+                <label for="hrma-signature">Signature:</label>
+                <canvas id="hrma-signature" width="300" height="150"></canvas>
+                <button class="clear-button" onclick="clearCanvas('hrma-signature')">Clear Signature</button>
+                <button class="save-button" onclick="saveSignature('hrma-signature', 'hrma-name', 'hrma-date')">Save</button>
+                <label for="hrma-name">Name:</label>
+                <input type="text" id="hrma-name">
+                <label for="hrma-date">Date:</label>
+                <input type="date" id="hrma-date">
+            </div>
+            <div>
+                <p>ENDORSED BY (SENIOR MANAGER HRMA)</p>
+                <label for="senior-signature">Signature:</label>
+                <canvas id="senior-signature" width="300" height="150"></canvas>
+                <button class="clear-button" onclick="clearCanvas('senior-signature')">Clear Signature</button>
+                <button class="save-button" onclick="saveSignature('senior-signature', 'senior-name', 'senior-date')">Save</button>
+                <label for="senior-name">Name:</label>
+                <input type="text" id="senior-name">
+                <label for="senior-date">Date:</label>
+                <input type="date" id="senior-date">
+            </div>
+            <div>
+                <p>APPROVED BY (CHRO)</p>
+                <label for="chro-signature">Signature:</label>
+                <canvas id="chro-signature" width="300" height="150"></canvas>
+                <button class="clear-button" onclick="clearCanvas('chro-signature')">Clear Signature</button>
+                <button class="save-button" onclick="saveSignature('chro-signature', 'chro-name', 'chro-date')">Save</button>
+                <label for="chro-name">Name:</label>
+                <input type="text" id="chro-name">
+                <label for="chro-date">Date:</label>
+                <input type="date" id="chro-date">
+            </div>
+        </div>
+    </div>
+
+    <button onclick="submitForm()">Submit</button>
+</div>
+
+<script>
+    function initializeSignaturePad(canvasId) {
+        const canvas = document.getElementById(canvasId);
+        const signaturePad = new SignaturePad(canvas);
+
+        function resizeCanvas() {
+            const ratio = Math.max(window.devicePixelRatio || 1, 1);
+            canvas.width = canvas.offsetWidth * ratio;
+            canvas.height = canvas.offsetHeight * ratio;
+            canvas.getContext('2d').scale(ratio, ratio);
+            signaturePad.clear();
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        return signaturePad;
+    }
+
+    const leaderSignaturePad = initializeSignaturePad('leader-signature');
+    const executiveSignaturePad = initializeSignaturePad('executive-signature');
+    const directorSignaturePad = initializeSignaturePad('director-signature');
+    const hrmaSignaturePad = initializeSignaturePad('hrma-signature');
+    const seniorSignaturePad = initializeSignaturePad('senior-signature');
+    const chroSignaturePad = initializeSignaturePad('chro-signature');
+
+    function clearCanvas(canvasId) {
+        const signaturePad = initializeSignaturePad(canvasId);
+        signaturePad.clear();
+    }
+    
+    function saveSignature(canvasId, nameId, dateId) {
+        const canvas = document.getElementById(canvasId);
+        const dataUrl = canvas.toDataURL('image/png');
+        localStorage.setItem(canvasId + 'Data', dataUrl);
+
+        const name = document.getElementById(nameId).value;
+        const date = document.getElementById(dateId).value;
+        localStorage.setItem(nameId, name);
+        localStorage.setItem(dateId, date);
+
+        alert('Signature, name, and date saved!');
+    }
+    
+    function loadSignature(canvasId, nameId, dateId) {
+        const dataUrl = localStorage.getItem(canvasId + 'Data');
+        if (dataUrl) {
+            const canvas = document.getElementById(canvasId);
+            const ctx = canvas.getContext('2d');
+            const image = new Image();
+            image.onload = function() {
+                ctx.drawImage(image, 0, 0);
+            };
+            image.src = dataUrl;
+        }
+
+        const name = localStorage.getItem(nameId);
+        if (name) {
+            document.getElementById(nameId).value = name;
+        }
+
+        const date = localStorage.getItem(dateId);
+        if (date) {
+            document.getElementById(dateId).value = date;
+        }
+    }
+
+    function retrieveForm() {
+        const formData = JSON.parse(localStorage.getItem('formData'));
+        if (formData) {
+            document.getElementById('project-leader-name-label').innerText = formData.projectLeaderName;
+            document.getElementById('project-title-label').innerText = formData.projectTitle;
+            document.getElementById('cost-center-no-label').innerText = formData.costCenterNo;
+            document.getElementById('current-balance-label').innerText = formData.currentBalance;
+            document.getElementById('project-end-date-label').innerText = formData.projectEndDate;
+            document.getElementById('position-title-label').innerText = formData.positionTitle;
+            document.getElementById('name-label').innerText = formData.name;
+            document.getElementById('ic-no-label').innerText = formData.icNo;
+            document.getElementById('age-label').innerText = formData.age;
+            document.getElementById('contact-no-label').innerText = formData.contactNo;
+            document.getElementById('email-label').innerText = formData.email;
+            document.getElementById('contract-from-label').innerText = formData.contractFrom;
+            document.getElementById('contract-to-label').innerText = formData.contractTo;
+            document.getElementById('proposed-salary-label').innerText = formData.proposedSalary;
+            document.getElementById('recommendation-label').innerText = formData.recommendation;
+            document.getElementById('insurance-policy-label').innerText = formData.insurancePolicy;
+            document.getElementById('insurance-option-label').innerText = formData.insuranceOption;
+
+            loadSignature('leader-signature', 'leader-name', 'leader-date');
+            loadSignature('executive-signature', 'executive-name', 'executive-date');
+            loadSignature('director-signature', 'director-name', 'director-date');
+            loadSignature('hrma-signature', 'hrma-name', 'hrma-date');
+            loadSignature('senior-signature', 'senior-name', 'senior-date');
+            loadSignature('chro-signature', 'chro-name', 'chro-date');
+        } else {
+            alert('No data found in local storage.');
+        }
+    }
+
+    async function collectFormData() {
+        const formData = {
+            attachments: JSON.parse(localStorage.getItem('attachmentsData')) || [],
+            projectLeaderName: document.getElementById('project-leader-name-label').innerText,
+            projectTitle: document.getElementById('project-title-label').innerText,
+            costCenterNo: document.getElementById('cost-center-no-label').innerText,
+            currentBalance: document.getElementById('current-balance-label').innerText,
+            projectEndDate: document.getElementById('project-end-date-label').innerText,
+            positionTitle: document.getElementById('position-title-label').innerText,
+            name: document.getElementById('name-label').innerText,
+            icNo: document.getElementById('ic-no-label').innerText,
+            age: document.getElementById('age-label').innerText,
+            contactNo: document.getElementById('contact-no-label').innerText,
+            email: document.getElementById('email-label').innerText,
+            contractFrom: document.getElementById('contract-from-label').innerText,
+            contractTo: document.getElementById('contract-to-label').innerText,
+            proposedSalary: document.getElementById('proposed-salary-label').innerText,
+            recommendation: document.getElementById('recommendation-label').innerText,
+            insurancePolicy: document.getElementById('insurance-policy-label').innerText,
+            insuranceOption: document.getElementById('insurance-option-label').innerText,
+            leaderName: document.getElementById('leader-name').value,
+            leaderSignature: getCanvasData('leader-signature'),
+            leaderDate: document.getElementById('leader-date').value,
+            executiveName: document.getElementById('executive-name').value,
+            executiveSignature: getCanvasData('executive-signature'),
+            executiveDate: document.getElementById('executive-date').value,
+            directorName: document.getElementById('director-name').value,
+            directorSignature: getCanvasData('director-signature'),
+            directorDate: document.getElementById('director-date').value,
+            hrmaName: document.getElementById('hrma-name').value,
+            hrmaSignature: getCanvasData('hrma-signature'),
+            hrmaDate: document.getElementById('hrma-date').value,
+            seniorName: document.getElementById('senior-name').value,
+            seniorSignature: getCanvasData('senior-signature'),
+            seniorDate: document.getElementById('senior-date').value,
+            chroName: document.getElementById('chro-name').value,
+            chroSignature: getCanvasData('chro-signature'),
+            chroDate: document.getElementById('chro-date').value
+        };
+
+        return formData;
+    }
+
+    function getCanvasData(canvasId) {
+        const canvas = document.getElementById(canvasId);
+        const dataUrl = canvas.toDataURL('image/png');
+        return dataUrl.replace(/^data:image\/(png|jpg);base64,/, '');
+    }
+
+    async function submitForm() {
+        try {
+            const formData = await collectFormData();
+            console.log('Form Data:', formData);
+            const response = await fetch('https://prod2-57.southeastasia.logic.azure.com:443/workflows/de1a5942cb9b4c87a963ec3d729a4efe/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=xq-rHFURBHx7jpGMVqiitkFEdWuqsZQYtngn0NTTeJ8', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+
+            const result = await response.json();
+            console.log('Success:', result);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        retrieveForm();
+    });
+</script>
+
+
+</body>
+</html>
