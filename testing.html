@@ -17,7 +17,7 @@
         .approval-section { display: flex; flex-wrap: wrap; justify-content: space-between; }
         .approval-section div { width: 100%; max-width: 30%; margin-bottom: 20px; }
         canvas { border: 1px solid #000; width: 100%; height: 150px; }
-        .clear-button { margin-top: 5px; }
+        .clear-button, .save-button { margin-top: 5px; }
         .background-image { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: url('utp pic.jpeg') no-repeat center center; background-size: cover; opacity: 0.2; z-index: -1; }
         @media print {
             body { margin: 0; }
@@ -36,12 +36,12 @@
     <p>This form is only applicable for contract staff hired under grant – Research Officer & Research Assistant. This form is to be filled and submitted by Project Leader at least ONE (1) MONTH before proposed report duty date.</p>
     <p>For Local Candidate our report duty date is only on either 1st or 16th of the month. If any of the date falls on public holiday the candidate shall report duty on the following working date.</p>
     <p>Assessment must be arranged by PI & respective Research Institute. This form must be submitted with the following documents: (please tick)</p>
-    
+
     <div class="form-group">
         <label for="attachments">Upload Attachment(s):</label>
         <input type="file" id="attachments" multiple onchange="saveAttachmentsToLocalStorage()">
     </div>
-    
+
     <div class="form-group-checkbox">
         <input type="checkbox" id="manpower-calculator">
         <label for="manpower-calculator">Manpower Calculator on Salary Recommendation</label>
@@ -183,16 +183,22 @@
 
         try {
             const attachmentsData = await Promise.all(attachmentPromises);
-            localStorage.setItem('attachmentsData', JSON.stringify(attachmentsData));
+            const attachmentsJson = JSON.stringify(attachmentsData);
+            
+            if (attachmentsJson.length > 5 * 1024 * 1024) { // Check if the data exceeds 5MB
+                throw new Error("Attachments exceed the local storage size limit.");
+            }
+            
+            localStorage.setItem('attachmentsData', attachmentsJson);
+            console.log('Attachments saved successfully');
         } catch (error) {
-            console.error('Error saving attachments:', error);
-            alert('Failed to save attachments.');
+            console.error('Error saving attachments:', error.message);
+            alert('Error saving attachments: ' + error.message);
         }
     }
 
     // Function to submit the form data
     async function submitForm() {
-        // Get form values
         const positionTitle = document.querySelector('input[name="position-title"]:checked');
         const insurancePolicy = document.querySelector('input[name="insurance-policy"]:checked');
         const selectedInsuranceOption = document.querySelector('input[name="insurance-option"]:checked');
@@ -226,7 +232,7 @@
 
         // Save to local storage
         localStorage.setItem('formData', JSON.stringify(formData));
-
+        
         try {
             const response = await fetch('https://prod2-31.southeastasia.logic.azure.com:443/workflows/c947f8f6dfbf4e45a6e14c4e4f2f8828/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=couCnwnN7QYE3NivIWz-gWjg4wym_31NWXWODuadmVs', {
                 method: 'POST',
@@ -242,11 +248,11 @@
                 alert('Form submitted successfully.');
             } else {
                 console.error('Error:', response.statusText);
-                
+                alert('Error submitting form: ' + response.statusText);
             }
         } catch (error) {
             console.error('Error:', error);
-            
+            alert('Error submitting form: ' + error.message);
         }
 
         // Clear form
@@ -258,20 +264,6 @@
             }
         });
     }
-
-    // Handling the toggling of radio buttons for insurance option
-    let lastChecked = null;
-    document.querySelectorAll('input[name="insurance-option"]').forEach(radio => {
-        radio.addEventListener('click', (event) => {
-            if (lastChecked === event.target) {
-                event.target.checked = false;
-                lastChecked = null;
-            } else {
-                lastChecked = event.target;
-            }
-        });
-    });
 </script>
 </body>
 </html>
-
