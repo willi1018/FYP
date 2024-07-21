@@ -264,6 +264,18 @@
             }
         });
     }
+    // Handling the toggling of radio buttons for insurance option
+    let lastChecked = null;
+    document.querySelectorAll('input[name="insurance-option"]').forEach(radio => {
+        radio.addEventListener('click', (event) => {
+            if (lastChecked === event.target) {
+                event.target.checked = false;
+                lastChecked = null;
+            } else {
+                lastChecked = event.target;
+            }
+        });
+    });
 </script>
 </body>
 </html>
